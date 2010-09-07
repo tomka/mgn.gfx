@@ -60,10 +60,10 @@ class ObjectReader {
             char[] line;
             while(true)
             {
-                line = file.readLine();
                 if( file.eof() )
                     break;
 
+                line = file.readLine();
                 parse_line(line);
             }
         }

@@ -47,6 +47,14 @@ class ObjectReader {
         }
     }
 
+    // unittest for open()
+    unittest {
+        ObjectReader or = new ObjectReader( null );
+        assert ( or.open() == false );
+        or = new ObjectReader( "" );
+        assert ( or.open() == false );
+    }
+
     //close file
     void close() {
         if(file.isOpen())

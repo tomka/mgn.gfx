@@ -182,13 +182,26 @@ class ObjectReader {
         if(index != not_found) {
             tc++;
             float u,v,w = 0.0;
-            char[][] tex_coords = split( line[index+2 .. $] ); // split on whitespaces
-            if (tex_coords.length > 0)
-                u = to!float(tex_coords[0]);
-            if (tex_coords.length > 1)
-                v = to!float(tex_coords[1]);
-            if (tex_coords.length > 2)
-                w = to!float(tex_coords[2]);
+            char[][] texCoords = split( line[index+2 .. $] ); // split on whitespaces
+
+            if (texCoords.length > 0) {
+                if (indexOf(texCoords[0], ".") != not_found)
+                    u = to!(float)(texCoords[0]);
+                else
+                    u = to!(int)(texCoords[0]);
+            }
+            if (texCoords.length > 1) {
+                if (indexOf(texCoords[1], ".") != not_found)
+                    v = to!(float)(texCoords[1]);
+                else
+                    v = to!(int)(texCoords[1]);
+            }
+            if (texCoords.length > 2) {
+                if (indexOf(texCoords[2], ".") != not_found)
+                    w = to!(float)(texCoords[2]);
+                else
+                    w = to!(int)(texCoords[2]);
+            }
 
             process_texcoord(tc,u,v,w);
             return;
@@ -199,13 +212,26 @@ class ObjectReader {
         if(index != not_found) {
             nc++;
             float x,y,z = 0;
-            char[][] normal_coords = split( line[index+2 .. $] );
-            if (normal_coords.length > 0)
-                x = to!float(normal_coords[0]);
-            if (normal_coords.length > 1)
-                y = to!float(normal_coords[1]);
-            if (normal_coords.length > 2)
-                z = to!float(normal_coords[2]);
+            char[][] normalCoords = split( line[index+2 .. $] );
+
+            if (normalCoords.length > 0) {
+                if (indexOf(normalCoords[0], ".") != not_found)
+                    x = to!(float)(normalCoords[0]);
+                else
+                    x = to!(int)(normalCoords[0]);
+            }
+            if (normalCoords.length > 1) {
+                if (indexOf(normalCoords[1], ".") != not_found)
+                    y = to!(float)(normalCoords[1]);
+                else
+                    y = to!(int)(normalCoords[1]);
+            }
+            if (normalCoords.length > 2) {
+                if (indexOf(normalCoords[2], ".") != not_found)
+                    z = to!(float)(normalCoords[2]);
+                else
+                    z = to!(int)(normalCoords[2]);
+            }
 
             process_normal(nc,x,y,z);
             return;
@@ -251,12 +277,25 @@ class ObjectReader {
             vc++;
             float x = 0.0, y = 0.0, z = 0.0;
             char[][] vertexCoords = split( line[index+2 .. $] );
-            if (vertexCoords.length > 0)
-                x = to!float(vertexCoords[0]);
-            if (vertexCoords.length > 1)
-                y = to!float(vertexCoords[1]);
-            if (vertexCoords.length > 2)
-                z = to!float(vertexCoords[2]);
+
+            if (vertexCoords.length > 0) {
+                if (indexOf(vertexCoords[0], ".") != not_found)
+                    x = to!(float)(vertexCoords[0]);
+                else
+                    x = to!(int)(vertexCoords[0]);
+            }
+            if (vertexCoords.length > 1) {
+                if (indexOf(vertexCoords[1], ".") != not_found)
+                    y = to!(float)(vertexCoords[1]);
+                else
+                    y = to!(int)(vertexCoords[0]);
+            }
+            if (vertexCoords.length > 2) {
+                if (indexOf(vertexCoords[2], ".") != not_found)
+                    z = to!(float)(vertexCoords[2]);
+                else
+                    z = to!(int)(vertexCoords[2]);
+            }
 
             process_vertex(vc,x,y,z);
             return;
@@ -265,7 +304,7 @@ class ObjectReader {
         //search face
         index = indexOf(line, "f ");
         if(index != not_found) {
-            line = line[index+1 .. $];
+            line = line[index+2 .. $];
             fc++;
 
             int vi,ti,ni;
@@ -290,11 +329,11 @@ class ObjectReader {
             auto tIndices = appender!(int[])();
             auto nIndices = appender!(int[])();
 
-            char[][] vertexCoords = split( line[index+2 .. $] );
+            char[][] vertexCoords = split( line );
             foreach(char[] coord; vertexCoords) {
                 vi = parse!(int)(coord);
                 vIndices.put( vi );
-                if (coord[0] == '/') {
+                if (coord.length > 2 && coord[0] == '/') {
                     coord = coord[1 ..$];
                     if (coord[0] == '/') {
                         coord = coord[1 ..$];

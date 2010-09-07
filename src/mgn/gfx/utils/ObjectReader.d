@@ -248,7 +248,7 @@ class ObjectReader {
             if (vertexCoords.length > 1)
                 y = to!float(vertexCoords[1]);
             if (vertexCoords.length > 2)
-                y = to!float(vertexCoords[2]);
+                z = to!float(vertexCoords[2]);
 
             process_vertex(vc,x,y,z);
             return;

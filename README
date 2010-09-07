@@ -1,0 +1,50 @@
+Moregoodnews graphics library
+=============================
+
+This library is currently meant as a graphics related playground
+for the D language (version 2).
+
+
+Folder structure
+================
+
+The folder structure is as follows:
+
+    \src        source files
+    \samples    some samples
+
+
+Building
+========
+
+To build the library and examples you need a D2 compiler. DMD
+(Digital Mars D compiler) is such a thing and the one we tested
+the code with. You can grab it at [1]. To build the library by
+hand, just call dmd with all the source files and either the -c
+(no linking) or the -lib (library) option. The result can then
+be linked against the actual source code using the library. Of
+cause you could do that all in one call by supplying the correct
+include path (-I option) as well.
+
+Alternatively you can use cmake with the cmaked2 module [2].
+CMakeLists.txt files are supplied for the library and samples.
+Beware, you need at least cmake 2.8.1 for that to work and you
+might need to specify the D compiler by hand with adding the
+following to the dmd call (fit the path your needs):
+
+    -DCMAKE_D_COMPILER=/usr/bin/dmd
+
+We recommend making a build directory in the root of this
+repository and building from there:
+
+    mkdir build
+    cd build
+    cmake .. -DCMAKE_D_COMPILER=/usr/bin/dmd
+
+That way cmake won't pollute the source tree.
+
+References
+==========
+
+[1] http://www.digitalmars.com/d/2.0/index.html
+[2] http://code.google.com/p/cmaked2/

@@ -185,22 +185,13 @@ class ObjectReader {
             char[][] texCoords = split( line[index+2 .. $] ); // split on whitespaces
 
             if (texCoords.length > 0) {
-                if (indexOf(texCoords[0], ".") != not_found)
-                    u = to!(float)(texCoords[0]);
-                else
-                    u = to!(int)(texCoords[0]);
+                u = toFloat( texCoords[0] );
             }
             if (texCoords.length > 1) {
-                if (indexOf(texCoords[1], ".") != not_found)
-                    v = to!(float)(texCoords[1]);
-                else
-                    v = to!(int)(texCoords[1]);
+                v = toFloat( texCoords[1] );
             }
             if (texCoords.length > 2) {
-                if (indexOf(texCoords[2], ".") != not_found)
-                    w = to!(float)(texCoords[2]);
-                else
-                    w = to!(int)(texCoords[2]);
+                w = toFloat( texCoords[2] );
             }
 
             process_texcoord(tc,u,v,w);
@@ -215,22 +206,13 @@ class ObjectReader {
             char[][] normalCoords = split( line[index+2 .. $] );
 
             if (normalCoords.length > 0) {
-                if (indexOf(normalCoords[0], ".") != not_found)
-                    x = to!(float)(normalCoords[0]);
-                else
-                    x = to!(int)(normalCoords[0]);
+                x = toFloat( normalCoords[0] );
             }
             if (normalCoords.length > 1) {
-                if (indexOf(normalCoords[1], ".") != not_found)
-                    y = to!(float)(normalCoords[1]);
-                else
-                    y = to!(int)(normalCoords[1]);
+                y = toFloat( normalCoords[1] );
             }
             if (normalCoords.length > 2) {
-                if (indexOf(normalCoords[2], ".") != not_found)
-                    z = to!(float)(normalCoords[2]);
-                else
-                    z = to!(int)(normalCoords[2]);
+                z = toFloat( normalCoords[2] );
             }
 
             process_normal(nc,x,y,z);
@@ -279,22 +261,13 @@ class ObjectReader {
             char[][] vertexCoords = split( line[index+2 .. $] );
 
             if (vertexCoords.length > 0) {
-                if (indexOf(vertexCoords[0], ".") != not_found)
-                    x = to!(float)(vertexCoords[0]);
-                else
-                    x = to!(int)(vertexCoords[0]);
+                x = toFloat( vertexCoords[0] );
             }
             if (vertexCoords.length > 1) {
-                if (indexOf(vertexCoords[1], ".") != not_found)
-                    y = to!(float)(vertexCoords[1]);
-                else
-                    y = to!(int)(vertexCoords[0]);
+                y = toFloat( vertexCoords[1] );
             }
             if (vertexCoords.length > 2) {
-                if (indexOf(vertexCoords[2], ".") != not_found)
-                    z = to!(float)(vertexCoords[2]);
-                else
-                    z = to!(int)(vertexCoords[2]);
+                z = toFloat( vertexCoords[2] );
             }
 
             process_vertex(vc,x,y,z);
@@ -368,6 +341,16 @@ class ObjectReader {
 
             return;
         }
+    }
+
+    // this method is needed for conveniently parse strings into floats.
+    // dmd has currently (as of v2.048) a bug that it can't parse strings
+    // starting with "0" into a float
+    float toFloat(char[] str) {
+        if (str[0] != '0')
+            return to!(float)(str);
+        else
+            return to!(double)(str);
     }
 
     //overide this function to process a comment

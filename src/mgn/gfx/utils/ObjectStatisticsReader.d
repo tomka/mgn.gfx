@@ -8,7 +8,7 @@ import std.string;
 import std.stream;
 import mgn.gfx.utils.ObjectReader;
 
-class ObjectStatisticsReader : ObjectReader  {
+class ObjectStatisticsReader(T) : ObjectReader!T  {
 
   public:
     // initialize parser with filename
@@ -18,17 +18,6 @@ class ObjectStatisticsReader : ObjectReader  {
 
     // destructor
     ~this() {
-    }
-
-    // open file, return true if successful
-    bool open() {
-        if ( !super.open() ) {
-            return false;
-        }
-
-        // reset all other memers to default
-
-        return true;
     }
 
     int commentCount() {
@@ -68,17 +57,17 @@ class ObjectStatisticsReader : ObjectReader  {
     }
 
     //overide this function to process a vertex
-    void process_vertex(int index, float x, float y, float z) {
+    void process_vertex(int index, T x, T y, T z) {
 
     }
 
     //overide this function to process a texcoord
-    void process_texcoord(int index, float u, float v, float w=0) {
+    void process_texcoord(int index, T u, T v, T w=0) {
 
     }
 
     //overide this function to process a normal
-    void process_normal(int index, float x, float y, float z) {
+    void process_normal(int index, T x, T y, T z) {
 
     }
 

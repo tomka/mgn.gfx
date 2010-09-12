@@ -5,7 +5,6 @@ import std.stdio;
 import mgn.gfx.utils.ObjectStatisticsReader;
 
 int main( string[] args ) {
-
     if (args.length == 1) {
         writefln("Please pass an object file as parameter.");
         return 1;
@@ -13,7 +12,7 @@ int main( string[] args ) {
 
     // load object file
     string filename = args[1];
-    ObjectStatisticsReader or = new ObjectStatisticsReader( filename );
+    ObjectStatisticsReader!double or  = new ObjectStatisticsReader!double( filename );
     if ( or.open() ) {
         or.read();
         // print statistics if opening was possible

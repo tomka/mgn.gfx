@@ -7,7 +7,8 @@ import std.stdio;
 import std.string;
 import std.stream;
 
-class ObjectReader {
+// T - T is the numeric type used for reprentation of coordinates and such.
+class ObjectReader(T) {
     string          filename; // the name of the object file
     std.stream.File file;     // the object file
     uint    cc, // comment count
@@ -20,12 +21,13 @@ class ObjectReader {
   public:
     // initialize parser with filename
     this(string filename) {
-        this.filename = filename;
+        // make an immutable copy of the filename
+        this.filename = filename.idup;
         file = new std.stream.File();
     }
 
     // destructor
-    ~this()    {
+    ~this() {
         if(file.isOpen())
             file.close();
     }
@@ -181,17 +183,17 @@ class ObjectReader {
         index = indexOf(line, "vt");
         if(index != not_found) {
             tc++;
-            float u,v,w = 0.0;
+            T u,v,w = 0.0;
             char[][] texCoords = split( line[index+2 .. $] ); // split on whitespaces
 
             if (texCoords.length > 0) {
-                u = toFloat( texCoords[0] );
+                u = parse!T( texCoords[0] );
             }
             if (texCoords.length > 1) {
-                v = toFloat( texCoords[1] );
+                v = parse!T( texCoords[1] );
             }
             if (texCoords.length > 2) {
-                w = toFloat( texCoords[2] );
+                w = parse!T( texCoords[2] );
             }
 
             process_texcoord(tc,u,v,w);
@@ -202,17 +204,17 @@ class ObjectReader {
         index = indexOf(line, "vn ");
         if(index != not_found) {
             nc++;
-            float x,y,z = 0;
+            T x,y,z = 0;
             char[][] normalCoords = split( line[index+2 .. $] );
 
             if (normalCoords.length > 0) {
-                x = toFloat( normalCoords[0] );
+                x = parse!T( normalCoords[0] );
             }
             if (normalCoords.length > 1) {
-                y = toFloat( normalCoords[1] );
+                y = parse!T( normalCoords[1] );
             }
             if (normalCoords.length > 2) {
-                z = toFloat( normalCoords[2] );
+                z = parse!T( normalCoords[2] );
             }
 
             process_normal(nc,x,y,z);
@@ -257,17 +259,17 @@ class ObjectReader {
         index = indexOf(line, "v ");
         if(index != not_found) {
             vc++;
-            float x = 0.0, y = 0.0, z = 0.0;
+            T x = 0.0, y = 0.0, z = 0.0;
             char[][] vertexCoords = split( line[index+2 .. $] );
 
             if (vertexCoords.length > 0) {
-                x = toFloat( vertexCoords[0] );
+                x = parse!T( vertexCoords[0] );
             }
             if (vertexCoords.length > 1) {
-                y = toFloat( vertexCoords[1] );
+                y = parse!T( vertexCoords[1] );
             }
             if (vertexCoords.length > 2) {
-                z = toFloat( vertexCoords[2] );
+                z = parse!T( vertexCoords[2] );
             }
 
             process_vertex(vc,x,y,z);
@@ -370,17 +372,17 @@ class ObjectReader {
     }
 
     //overide this function to process a vertex
-    void process_vertex(int index, float x, float y, float z) {
+    void process_vertex(int index, T x, T y, T z) {
 
     }
 
     //overide this function to process a texcoord
-    void process_texcoord(int index, float u, float v, float w=0) {
+    void process_texcoord(int index, T u, T v, T w=0) {
 
     }
 
     //overide this function to process a normal
-    void process_normal(int index, float x, float y, float z) {
+    void process_normal(int index, T x, T y, T z) {
 
     }
 

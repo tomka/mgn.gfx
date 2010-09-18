@@ -345,16 +345,6 @@ class ObjectReader(T) {
         }
     }
 
-    // this method is needed for conveniently parse strings into floats.
-    // dmd has currently (as of v2.048) a bug that it can't parse strings
-    // starting with "0" into a float
-    float toFloat(char[] str) {
-        if (str[0] != '0')
-            return to!(float)(str);
-        else
-            return to!(double)(str);
-    }
-
     //overide this function to process a comment
     void process_comment(int index, char[] comment) {
 

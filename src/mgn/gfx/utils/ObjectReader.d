@@ -26,12 +26,6 @@ class ObjectReader(T) {
         file = new std.stream.File();
     }
 
-    // destructor
-    ~this() {
-        if(file.isOpen())
-            file.close();
-    }
-
     // open file, return true if successful
     bool open() {
         try {

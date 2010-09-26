@@ -12,11 +12,11 @@ int main( string[] args ) {
 
     // load object file
     string filename = args[1];
-    ObjectStatisticsReader!double or  = new ObjectStatisticsReader!double( filename );
+    ObjectStatisticsReader!double or = new ObjectStatisticsReader!double( filename );
     if ( or.open() ) {
+        writefln("The file " ~ filename ~ " has been opened successfully!");
         or.read();
         // print statistics if opening was possible
-        writefln("The file " ~ filename ~ " has been opened successfully!");
         writefln("Some statistics:");
         writefln( "\tNumber of comments: " ~ to!(string)(or.commentCount) );
         writefln( "\tNumber of vertices: " ~ to!(string)(or.vertexCount) );

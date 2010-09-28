@@ -9,8 +9,6 @@ import std.stream;
 import mgn.gfx.utils.ObjectReader;
 
 class ObjectStatisticsReader(T) : ObjectReader!T  {
-
-  public:
     // initialize parser with filename
     this(string filename) {
         super( filename );

@@ -9,6 +9,7 @@ import std.stream;
 
 // T - T is the numeric type used for reprentation of coordinates and such.
 class ObjectReader(T) {
+  protected:
     string          filename; // the name of the object file
     std.stream.File file;     // the object file
     uint    cc, // comment count
